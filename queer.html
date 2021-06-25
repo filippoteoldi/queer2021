@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<title>Omotrasfobia in Italia</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js"></script>
+<link
+href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css"
+rel="stylesheet"
+/>
+<style>
+body {
+margin: 0;
+padding: 0;
+}
+h2,
+h3 {
+margin: 10px;
+font-size: 1.2em;
+}
+h3 {
+font-size: 1em;
+}
+p {
+font-size: 0.85em;
+margin: 10px;
+text-align: left;
+}
+.map-overlay {
+position: absolute;
+bottom: 0;
+right: 0;
+background: rgba(255, 255, 255, 0.8);
+margin-right: 20px;
+font-family: Barlow, sans-serif;
+overflow: auto;
+border-radius: 3px;
+}
+#map {
+position: absolute;
+top: 0;
+bottom: 0;
+width: 100%;
+}
+#features {
+top: 0;
+height: 240px;
+margin-top: 20px;
+width: 250px;
+}
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div class="map-overlay" id="features">
+<h2>Cronache di ordinario amore</h2>
+<div id="pd"><p>Clicca su una città</p></div>
+</div>
+<div class="map-overlay" id="legend"></div>
+ 
+<script>
+// define access token
+mapboxgl.accessToken = 'pk.eyJ1IjoiZnRlb2xkaSIsImEiOiJja2p5ZWUzd2wxMWY1MnBsY2x0cWk2YWw4In0.qzvwKE0afRGEZQZFekuqDw';
+ 
+//create map
+var map = new mapboxgl.Map({
+container: 'map', // container id
+style: 'mapbox://styles/fteoldi/ckqb15yu00cor17lim1fy59iv', minZoom: 4.71,
+maxZoom: 14.71  
+// map style URL from Mapbox Studio
+});
+ 
+// wait for map to load before adjusting it
+map.on('load', function () {
+// make a pointer cursor
+map.getCanvas().style.cursor = 'default';
+ 
+// set map bounds to the continental italy
+map.fitBounds([
+[6.7499552751, 36.619987291],
+[18.4802470232, 47.1153931748]
+]);
+ 
+// make a pointer cursor
+map.getCanvas().style.cursor = 'default';
+ 
+
+ 
+ 
+// change info window on hover
+map.on('mousemove', function (e) {
+var states = map.queryRenderedFeatures(e.point, {
+layers: ['queer']
+});
+ 
+if (states.length > 0) {
+document.getElementById('pd').innerHTML =
+'<p>' +
+states[0].properties.Testo;
+
+} else {
+document.getElementById('pd').innerHTML =
+'<p>Clicca su una citta</p>';
+}
+});
+});
+</script>
+</body>
+</html>
